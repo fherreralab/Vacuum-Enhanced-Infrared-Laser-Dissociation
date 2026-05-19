@@ -7,3 +7,6 @@ Repository Contents:
 - Figures 3a and 3b Data
 - Figures 4a and 4b Data
 - MCTDH Input and Operator files for Figure 4a (ED=0.03 aJ).
+  - File "cs2-cav-gs.inp" generates the polariton ground state.
+  - File "cs-cav.inp" propagates the wave function.
+  - File "cs-cav.op" is the Hamiltonian operator in MCTDH form. 
