@@ -1,0 +1,48 @@
+RUN-SECTION
+# usempi
+ name = cs-init-g0p025
+ title  =  CS2-Cavity-GroundState
+ relaxation #= 0  # relaxation, continuation, exact are possible keywords
+ tinit  = 0.0  # start time of integration, tinit=0 is the default
+ tfinal = 60.0  # Integration is stoped at t=tfinal
+ tout   =  5.0  # Output is written at tout intervals
+ tpsi   =  5.0  # Wavef. is written at tout intervals (default tpsi=tout)
+ title  =  Model-HO-QCLight
+ steps          # information on integrator steps
+ stop           # allows to stop the job in a controled way
+ psi
+ genoper
+ geninwf
+end-run-section
+
+OPERATOR-SECTION
+ opname = cs-cav
+ ALTER-PARAMETERS
+   g = 0.025
+   el = 0.01
+ END-ALTER-PARAMETERS
+end-operator-section
+
+SPF-BASIS-SECTION
+    r = 5   # define the number of single-particle functions for each mode
+    x = 5
+end-spf-basis-section
+
+PRIMITIVE-BASIS-SECTION
+    r     sin    496      2.1   12.0
+    x     HO     501    xi-xf   -150.0  150.0
+end-primitive-basis-section
+
+INTEGRATOR-SECTION
+ CMF = 0.5, 1.0d-8            # initial step size (fs), CMF-accuracy
+ RK8/spf = 1.0d-8
+ SIL/A   = 20 , 1.0d-8, standard  # order, accuracy, error-estimate
+end-integrator-section
+
+INIT_WF-SECTION
+    BUILD
+      r    eigenf  H0     pop=1   # Correspond to the eigenfunction of the ground state of V1
+      x      HO   0.00        0.0   1514.932,cm-1   1.0    pop=1
+    END-BUILD
+end-init_wf-section
+end-input

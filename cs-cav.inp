@@ -1,0 +1,48 @@
+RUN-SECTION
+ name = cs2-g0p025-ed0p03
+ title  =  PolaritonWavepacket
+ continuation #propagation  # relaxation, continuation, exact are possible keywords
+ tinit  = 0.0  # start time of integration, tinit=0 is the default
+ tfinal = 3500.0  # Integration is stoped at t=tfinal
+ tout   =  2.0  # Output is written at tout intervals
+ tpsi   =  2.0  # Wavef. is written at tout intervals (default tpsi=tout)
+ title  =  Model-HO-QCLight
+ steps          # information on integrator steps
+ stop           # allows to stop the job in a controled way
+ psi
+ genoper
+ geninwf
+end-run-section
+
+OPERATOR-SECTION
+ opname = cs-cav
+ ALTER-PARAMETERS
+   g = 0.025
+   el = 0.01, au
+ END-ALTER-PARAMETERS
+end-operator-section
+
+SPF-BASIS-SECTION
+    r = 65    # define the number of single-particle functions for each mode
+    x = 65
+end-spf-basis-section
+
+PRIMITIVE-BASIS-SECTION
+    r     sin    496      2.1   12.0
+    x     HO     451    xi-xf   -140.0  140.0
+end-primitive-basis-section
+
+INTEGRATOR-SECTION
+ CMF/var = 0.5, 1.0d-7            # initial step size (fs), CMF-accuracy
+ RK8/spf = 1.0d-7
+ SIL/A   = 20 , 1.0d-7, standard  # order, accuracy, error-estimate
+end-integrator-section
+
+INIT_WF-SECTION
+   READ-INWF
+     file = cs-init-g0p025
+     SPF 1 -> 1
+      A  1 -> 1
+    END-READ-INWF
+end-init_wf-section
+end-input
