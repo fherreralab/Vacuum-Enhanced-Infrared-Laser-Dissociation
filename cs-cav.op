@@ -1,0 +1,67 @@
+OP_DEFINE-SECTION
+      TITLE
+     PolaritonWavePacketPropagation
+      END-TITLE
+END-OP_DEFINE-SECTION
+      
+PARAMETER-SECTION
+# ATOM MASS
+    smass = 32.065, AMU
+    cmass = 12.0107, AMU
+    csmass = smass+cmass
+
+# REDUCE MASS
+    mass_r = 0.6675*smass*cmass/csmass
+
+# CAVITY PARAMETERS
+    omc = 1514.9316, cm-1
+    om2 = omc^0.5
+    sq2 = 2.0^0.5
+    g = 0.1
+    
+# DIPOLE PARAMETERS
+    d01 = 0.11755522
+    e0 = g*omc/d01
+
+# LASER PARAMETERS
+    el = 0.001
+    rdiss = 8.0
+END-PARAMETER-SECTION
+
+LABELS-SECTION
+    pot = read1d{potential_cs.dat ascii}
+    dip = read1d{dipole_cs.dat ascii}
+    cEt = sin[ omc, 0.0 ]
+    CP = CAP [ rdiss, 0.35, 2, +1]
+END-LABELS-SECTION
+
+HAMILTONIAN-SECTION
+    ---------------------------------------------
+        modes       |   r    |    x    | Time
+    ---------------------------------------------
+####### MOLECULAR HAMILTONIAN ##################
+        1.0         |   KE   |    1    |   1
+        1.0         |   pot  |    1    |   1
+###### RADIATION HAMILTONIAN  ##################
+       -0.5         |   1    |   dq^2  |   1
+     0.5*omc^2      |   1    |    q^2  |   1
+####### MOL-RAD HAMILTONIAN ####################
+     sq2*om2*e0     |  dip   |    q    |   1
+############ LASER  ############################
+        -el         |  dip   |    1    |  cEt
+        1.0         |  CP    |    1    |   1
+    ---------------------------------------------
+END-HAMILTONIAN-SECTION
+
+HAMILTONIAN-SECTION_H0
+    usediag
+    ---------------------------
+        modes    |   r
+    ---------------------------
+        1.0      |   KE
+        1.0      |   pot
+    ---------------------------
+END-HAMILTONIAN-SECTION
+
+
+END-OPERATOR
