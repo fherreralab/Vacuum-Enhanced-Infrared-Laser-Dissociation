@@ -6,5 +6,4 @@ Repository Contents:
 - Figure 2 Data
 - Figures 3a and 3b Data
 - Figures 4a and 4b Data
-- MCTDH Script for [...]
-- MOLPRO Script for [...]
+- MCTDH Input and Operator files for Figure 4a (ED=0.03 aJ).
